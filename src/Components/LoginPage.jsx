@@ -31,8 +31,10 @@ function LoginPage() {
     onSubmit: (values) => {
       console.log("12", values);
 
-      const getData = JSON.parse(localStorage.getItem("userDetail") || []);
+      const getData = JSON.parse(localStorage.getItem("userDetail")) || [];
       
+      
+
       const newData = {
         id: Math.random() * Math.pow(5,9),
         username: values.username,
@@ -42,16 +44,22 @@ function LoginPage() {
         confirmpassword:values.confirmpassword
       }
 
+      console.log(",,,,",newData)
+
+      const userFind =  getData?.find((itm) => itm.email === newData.email )
+
+      if(userFind){
+            alert("email is already exist");
+            return;
+      }
+
       getData.push(newData);
 
       localStorage.setItem("userDetail",JSON.stringify(getData));
-
-      
-
       console.log(getData,"???????");
+      alert("Login Successfully");
 
-
-
+      formik.resetForm();
       
     },
   });
@@ -60,6 +68,8 @@ function LoginPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [checked,setChecked] = useState(false);
+
+  
 
   const handleCheckedChange = () => {
     setChecked(!checked)
