@@ -15,7 +15,7 @@ function LoginPage() {
       .min(8, "passwor must be at least 8 character")
       .required("Password is Required"),
     confirmpassword: Yup.string()
-      .oneOf([Yup.ref("Password"), null], "Passwords must match")
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
       .required("ConfirmPassword is Required"),
   });
 
@@ -29,11 +29,41 @@ function LoginPage() {
     },
     validationSchema: signupSchema,
     onSubmit: (values) => {
-      console.log("....", values);
+      console.log("12", values);
+
+      const getData = JSON.parse(localStorage.getItem("userDetail") || []);
+      
+      const newData = {
+        id: Math.random() * Math.pow(5,9),
+        username: values.username,
+        website:values.website,
+        email:values.email,
+        password:values.password,
+        confirmpassword:values.confirmpassword
+      }
+
+      getData.push(newData);
+
+      localStorage.setItem("userDetail",JSON.stringify(getData));
+
+      
+
+      console.log(getData,"???????");
+
+
+
+      
     },
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [checked,setChecked] = useState(false);
+
+  const handleCheckedChange = () => {
+    setChecked(!checked)
+  }
 
   return (
     <>
@@ -66,7 +96,7 @@ function LoginPage() {
             <p>Enter your email and password to register</p>
           </div>
 
-          <form onSubmit={formik.handleSubmit}>
+          <form  onSubmit={formik.handleSubmit} >
             <div className="form-floating mb-3">
               <div>
                 <input
@@ -159,7 +189,7 @@ function LoginPage() {
                   }}
                 />
                
-                 <button onClick={() => setShowPassword(!showPassword)}>{showPassword? "Hide" : "Show"}</button>
+                 <p onClick={() => setShowPassword(!showPassword)} style={{marginLeft:"20px"}}>{showPassword? "Hide" : "Show"}</p>
 
                 {formik.errors.password && formik.touched.password ? (
                   <div style={{ color: "red", marginLeft: "20px" }}>
@@ -180,7 +210,7 @@ function LoginPage() {
                   //   formik.touched.confirmpassword &&
                   //   formik.errors.confirmpassword
                   // }
-                  type="password"
+                  type={showConfirmPassword ? "text" : "password"}
                   name="confirmpassword"
                   className="form-control"
                   id="floatingInput"
@@ -191,6 +221,8 @@ function LoginPage() {
                     margin: " 10px auto",
                   }}
                 />
+                <p style={{cursor:"pointer",marginLeft:"20px"}} onClick={() => setShowConfirmPassword(!showConfirmPassword)} >{showConfirmPassword? "Hide" : "Show"}</p>
+
                 {formik.errors.confirmpassword &&
                 formik.touched.confirmpassword ? (
                   <div style={{ color: "red", marginLeft: "20px" }}>
@@ -209,10 +241,11 @@ function LoginPage() {
               }}
             >
               <input
+              onChange={handleCheckedChange}
+              checked={checked}
                 style={{ margin: " 20px " }}
                 className="form-check-input"
                 type="checkbox"
-                value=""
                 id="flexCheckDefault"
               />
               <label className="form-check-label" htmlFor="flexCheckDefault">
@@ -221,7 +254,7 @@ function LoginPage() {
             </div>
 
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <button className="btn btn-primary" style={{ width: "80%" }}>
+              <button   className="btn btn-primary" style={{ width: "80%" }} disabled={!checked}>
                 Sign Up
               </button>
             </div>
