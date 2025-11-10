@@ -2,8 +2,6 @@ import { useFormik } from "formik";
 import React from "react";
 import * as Yup from "yup";
 
-
-
 function LoginPage() {
   const signupSchema = Yup.object().shape({
     Username: Yup.string().required("Username is Required"),
@@ -20,18 +18,24 @@ function LoginPage() {
       .oneOf([Yup.ref("Password"), null], "Passwords must match")
       .required("ConfirmPassword is Required"),
   });
-  
+
   const formik = useFormik({
-    initialValues:{
-      username:"",
-      // website:"",
-    }
+    initialValues: {
+      username: "",
+      website: "",
+      email: "",
+      password: "",
+      confirmpassword: "",
+    },
+    validationSchema: signupSchema,
+    onSubmit: (values) => {
+      console.log("....", values);
+    },
   });
-  
 
   return (
     <>
-      <div class="main">
+      <div className="main">
         <div
           style={{
             height: "500px",
@@ -60,84 +64,116 @@ function LoginPage() {
             <p>Enter your email and password to register</p>
           </div>
 
-          <div class="form-floating mb-3">
-            <div>
-              <input
-                value={formik.values.username}
-                onChange={formik.handleChange}
-                error={formik.touched.username && Boolean(formik.errors.username)}
-                helperText={formik.touched.username && formik.errors.username}
-                type="text"
-                class="form-control"
-                id="floatingInput"
-                placeholder="User Name"
-                style={{
-                  width: "90%",
-                  height: "40px",
-                  margin: " 40px auto 10px",
-                }}
-              />
-            </div>
+          {({ errors, touched }) => (
+            <div className="form-floating mb-3">
+              <div>
+                <input
+                  value={formik.values.username}
+                  onChange={formik.handleChange}
+                  // error={formik.touched.username && Boolean(formik.errors.username)}
+                  // helpertext={formik.touched.username && formik.errors.username}
+                  type="text"
+                  name="username"
+                  className="form-control"
+                  id="floatingInput"
+                  placeholder="User Name"
+                  style={{
+                    width: "90%",
+                    height: "40px",
+                    margin: " 40px auto 10px",
+                  }}
+                />
+                {errors.username && touched.username ? (
+                  <div>{errors.username}</div>
+                ) : null}
+              </div>
 
-            <div>
-              <input
-                value={formik.values.website}
-                onChange={formik.handleChange}
-                error={formik.touched.website && Boolean(formik.errors.website)}
-                helperText={formik.touched.website && formik.errors.website}
-                type="text"
-                class="form-control"
-                id="floatingInput"
-                placeholder="website"
-                style={{ width: "90%", height: "40px", margin: " 10px auto" }}
-              />
-            </div>
+              <div>
+                <input
+                  value={formik.values.website}
+                  onChange={formik.handleChange}
+                  // error={formik.touched.website && Boolean(formik.errors.website)}
+                  // helpertext={formik.touched.website && formik.errors.website}
+                  type="text"
+                  name="website"
+                  className="form-control"
+                  id="floatingInput"
+                  placeholder="website"
+                  style={{ width: "90%", height: "40px", margin: " 10px auto" }}
+                />
+                {errors.website && touched.website ? (
+                  <div>{errors.website}</div>
+                ) : null}
+              </div>
 
-            <div>
-              <input
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-                type="email"
-                class="form-control"
-                id="floatingInput"
-                placeholder="email"
-                style={{ width: "90%", height: "40px", margin: " 10px auto" }}
-              />
-            </div>
+              <div>
+                <input
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  // error={formik.touched.email && Boolean(formik.errors.email)}
+                  // helpertext={formik.touched.email && formik.errors.email}
+                  type="email"
+                  name="email"
+                  className="form-control"
+                  id="floatingInput"
+                  placeholder="email"
+                  style={{ width: "90%", height: "40px", margin: " 10px auto" }}
+                />
+                {errors.email && touched.email ? (
+                  <div>{errors.email}</div>
+                ) : null}
+              </div>
 
-            <div>
-              <input
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-                type="password"
-                class="form-control"
-                id="floatingInput"
-                placeholder="password"
-                style={{ width: "90%", height: "40px", margin: " 10px auto" }}
-              />
-            </div>
+              <div>
+                <input
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  // error={
+                  //   formik.touched.password && Boolean(formik.errors.password)
+                  // }
+                  // helpertext={formik.touched.password && formik.errors.password}
+                  type="password"
+                  name="password"
+                  className="form-control"
+                  id="floatingInput"
+                  placeholder="password"
+                  style={{ width: "90%", height: "40px", margin: " 10px auto" }}
+                />
+                                {errors.password && touched.password ? (
+                  <div>{errors.password}</div>
+                ):null}
+              </div>
 
-            <div>
-              <input
-              value={formik.values.ConfirmPassword}
-              onChange={formik.handleChange}
-              error={formik.touched.ConfirmPassword && Boolean(formik.errors.ConfirmPassword)}
-              helperText={formik.touched.ConfirmPassword && formik.errors.ConfirmPassword}
-                type="password"
-                class="form-control"
-                id="floatingInput"
-                placeholder="Confirm Password"
-                style={{ width: "90%", height: "40px", margin: " 10px auto" }}
-              />
+              <div>
+                <input
+                  value={formik.values.confirmpassword}
+                  onChange={formik.handleChange}
+                  // error={
+                  //   formik.touched.confirmpassword &&
+                  //   Boolean(formik.errors.confirmpassword)
+                  // }
+                  // helpertext={
+                  //   formik.touched.confirmpassword &&
+                  //   formik.errors.confirmpassword
+                  // }
+                  type="password"
+                  name="confirmpassword"
+                  className="form-control"
+                  id="floatingInput"
+                  placeholder="Confirm Password"
+                  style={{ width: "90%", height: "40px", margin: " 10px auto" }}
+                />
+                                {errors.confirmpassword && touched.confirmpassword ? (
+                  <div>{errors.confirmpassword}</div>
+                ):null}
+              </div>
             </div>
-          </div>
+          )}
+
+         
 
           <div
-            class="form-check"
+            className="form-check"
             style={{
               display: "flex",
               justifyContent: "center",
@@ -146,18 +182,22 @@ function LoginPage() {
           >
             <input
               style={{ margin: " 20px " }}
-              class="form-check-input"
+              className="form-check-input"
               type="checkbox"
               value=""
               id="flexCheckDefault"
             />
-            <label class="form-check-label" for="flexCheckDefault">
+            <label className="form-check-label" htmlFor="flexCheckDefault">
               i agree to the terms and condition
             </label>
           </div>
 
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <button class="btn btn-primary" style={{ width: "80%" }}>
+            <button
+              onSubmit={formik.handleSubmit}
+              className="btn btn-primary"
+              style={{ width: "80%" }}
+            >
               Sign In
             </button>
           </div>
