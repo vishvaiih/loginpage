@@ -23,6 +23,27 @@ function LoginPage() {
     validationSchema: signupSchema,
     onSubmit: (values) => {
       console.log("12", values);
+
+      const getData = JSON.parse(localStorage.getItem("userDetail")) || [];
+      console.log("11111",getData)
+
+      const  usrFind = getData.find((itm) => itm.email == values.email)
+      console.log("usrFind",usrFind);
+
+      if(!usrFind){
+        alert("Email is not exist")
+      }
+
+      if(usrFind.password  !== values.password){
+        alert("password is wrong")
+      }
+
+      if(usrFind.password == values.password){
+        alert("Login Successfully ")
+      }
+      
+      
+
     },
   });
 
