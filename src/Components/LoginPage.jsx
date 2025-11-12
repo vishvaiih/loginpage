@@ -39,15 +39,18 @@ function LoginPage() {
       }
 
       if(usrFind.password == values.password){
-        alert("Login Successfully ")
+        alert("Login Successfully ");   
+        localStorage.setItem("userData",JSON.stringify(values))
+        formik.resetForm();
+        usenavigate("/dashboard")
       }
       
-      
-
     },
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  
+  
 
   return (
     <div className="main">
