@@ -43,8 +43,7 @@ function LoginPage() {
         localStorage.setItem("userData",JSON.stringify(values))
         formik.resetForm();
         usenavigate("/dashboard")
-      }
-      
+      }     
     },
   });
 

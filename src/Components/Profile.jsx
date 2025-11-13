@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardLeft from "./DashboardLeft";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 
 function Profile() {
   const [edituser, setEditUser] = useState("");
   const [user, setuser] = useState("");
+  const [usr,setUsr] = useState("");
+
 
   const getData = JSON.parse(localStorage.getItem("userDetail")) || [];
   const userdata = JSON.parse(localStorage.getItem("userData"));
@@ -28,13 +32,36 @@ function Profile() {
 
   console.log("edituser", edituser);
 
-  const handalEdit = () => {
+  const handalEdit = (e) => {
      
-    
-    
+    e.preventDefault();
+    console.log("....",getData);
+
+       const userfind = getData?.find((itm) => itm.email === edituser.email )
+       console.log("vvvvvv",userfind)
+
+       if(userfind){
+            alert("email is already exist");
+            return;
+       }
+
+       const updatedUser = getData?.map((itm) => 
+        itm.email == findUser.email ? edituser : itm)
+
+       console.log("updatedUser",updatedUser)
+
+       localStorage.setItem("userDetail",JSON.stringify(updatedUser))
+       localStorage.setItem("userData",JSON.stringify(edituser));
+
+       setUsr(edituser);
+
+       setEditUser("")     
     
   }
- 
+
+  console.log("....",usr)
+
+
 
   return (
     <div className="maindiv">
